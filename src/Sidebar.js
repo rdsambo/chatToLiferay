@@ -99,7 +99,7 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
                     <h4>{user?.displayName} </h4>
                 </div>
                 <div className="sidebar__header--right">
-                    <IconButton onClick={() => {
+                    {/* <IconButton onClick={() => {
                         if (pwa) {
                             console.log("prompting the pwa event")
                             pwa.prompt()
@@ -108,7 +108,7 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
                         }
                     }} >
                         <GetAppRounded />
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton onClick={() => {
                         auth.signOut();
                         db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });

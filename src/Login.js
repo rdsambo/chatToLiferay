@@ -9,16 +9,18 @@ import Cookies from 'js-cookie';
 function Login() {
     useEffect(() => {
         //auth.signInWithRedirect(provider).catch(e => alert(e.message))
-        Cookies.set("userId", "rdsambo@gmail.co.zaas");
-        const email = Cookies.get("userId");
+       const email = "rdsambo@gmail.zk";
+        // const email = Cookies.get("userEmail");
+        // const username = Cookies.get("userName");
         console.log("email");
         console.log(email);
         const pass = email;
-        const username = "Ramos";
+        const username = email;
         auth.createUserWithEmailAndPassword(email, pass).then(
             (user)=>{
                 // value.additionalUserInfo.username = "Sambo";
                 // value.user.displayName = "Ramos";
+                
                 console.log("value.user.email");
                 console.log();
                 user.user.updateProfile({
@@ -50,7 +52,7 @@ function Login() {
                     alt=""
                 />
                 <div className="login__text">
-                    <h1>Sign in to WhatsApp</h1>
+                    <h1>...</h1>
                 </div>
 
                 {/* <Button onClick={createUser}>

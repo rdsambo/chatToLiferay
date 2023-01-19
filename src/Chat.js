@@ -802,12 +802,12 @@ function Chat({ animState, unreadMessages, b }) {
                 </div>
 
                 <div className="chat__header--right">
-                    <input id="attach-media" style={{ display: "none" }} accept="image/*" type="file" onChange={handleFile} />
+                    {/* <input id="attach-media" style={{ display: "none" }} accept="image/*" type="file" onChange={handleFile} />
                     <IconButton>
                         <label style={{ cursor: "pointer", height: 24 }} htmlFor="attach-media">
                             <AddPhotoAlternate />
                         </label>
-                    </IconButton>
+                    </IconButton> */}
 
                     <IconButton aria-controls="menu" aria-haspopup="true" onClick={event => setOpenMenu(event.currentTarget)}>
                         <MoreVert />

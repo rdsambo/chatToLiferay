@@ -29,7 +29,6 @@ function SidebarChat({ dataList, title, path, fetchList}) {
             if (a) {
                 //console.log("removing event");
                 clean.removeEventListener("scroll", a);
-                
             };
         };
     }, [dataList, fetchList]);
@@ -61,7 +60,7 @@ function SidebarChat({ dataList, title, path, fetchList}) {
                         arr.push(<Link className="link" key={data.id} to={{
                             pathname: path ? `${path}/room/${data.id}` : `/room/${data.id}`,
                             state: {
-                                photoURL: `${data.photoURL ? data.photoURL : `https://avatars.dicebear.com/api/human/${data.id}.svg`}`,
+                                photoURL: data?.photoURL,
                                 name: data.name,
                                 userID: data.userID ? data.userID : null,
                                 state: data.state
@@ -71,7 +70,7 @@ function SidebarChat({ dataList, title, path, fetchList}) {
                                 className={`sidebar__chat animate`}
                             >
                                 <div className="avatar__container">
-                                    <Avatar style={{width: 45,height: 45}} src={`${data.photoURL ? data.photoURL : `https://avatars.dicebear.com/api/human/${data.id}.svg`}`} />
+                                    <Avatar style={{width: 45,height: 45}} src={data?.photoURL} />
                                     {onlineState=== "online" ? <div className="online"></div> : null}
                                 </div>
                                 <div className="sidebar__chat--info">
