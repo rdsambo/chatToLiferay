@@ -9,13 +9,13 @@ import Cookies from 'js-cookie';
 function Login() {
     useEffect(() => {
         //auth.signInWithRedirect(provider).catch(e => alert(e.message))
-       const email = "rdsambo@gmail.zk";
-        // const email = Cookies.get("userEmail");
-        // const username = Cookies.get("userName");
+    //    const email = "rdsambo@gmail.zk";
+        const email = Cookies.get("userEmail");
+        const username = Cookies.get("userName");
         console.log("email");
         console.log(email);
         const pass = email;
-        const username = email;
+        // const username = email;
         auth.createUserWithEmailAndPassword(email, pass).then(
             (user)=>{
                 // value.additionalUserInfo.username = "Sambo";
