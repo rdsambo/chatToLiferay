@@ -40,6 +40,14 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
     return data;
   })());
 
+
+  window.addEventListener("beforeunload", (ev) => 
+  {
+    db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
+    console.log("set offline done!");
+      // ev.preventDefault();
+      // return ev.returnValue = 'Are you sure you want to close?';
+  });
   // let cabecalho;
   // let campo;
   // let botao_nao;
@@ -182,9 +190,10 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
             <GetAppRounded />
           </IconButton> */}
           <IconButton onClick={() => {
-            auth.signOut();
             db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
-            history.replace("/chats")
+            auth.signOut();
+            console.log("sign out");
+            // history.replace("/chats");
           }} >
             <LogOut />
           </IconButton>

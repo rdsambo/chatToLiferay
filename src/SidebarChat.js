@@ -71,7 +71,7 @@ function SidebarChat({ dataList, title, path, fetchList}) {
                             >
                                 <div className="avatar__container">
                                     <Avatar style={{width: 45,height: 45}} src={data?.photoURL} />
-                                    {onlineState=== "online" ? <div className="online"></div> : null}
+                                    {/* {onlineState=== "online" ? <div className="online"></div> : null} */}
                                 </div>
                                 <div className="sidebar__chat--info">
                                     <h2 
