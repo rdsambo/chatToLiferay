@@ -1,3 +1,4 @@
+import db, { auth, provider, createTimestamp, messaging } from './firebase';
 import { useState, useEffect, memo, useRef } from 'react';
 import Sidebar from './Sidebar';
 import Chat from './Chat';
@@ -6,7 +7,7 @@ import setOnlineStatus from "./setOnlineStatus";
 import { Route, useLocation, Redirect } from 'react-router-dom';
 import { useStateValue } from './StateProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import db, { auth, provider, createTimestamp, messaging } from './firebase';
+
 import { TransitionGroup, Transition, CSSTransition } from "react-transition-group";
 import './App.css';
 import useRoomsData from './useRoomsData';
@@ -83,7 +84,7 @@ function App() {
         }
         //console.log(authUser);
         db.collection("version").doc("version").get().then(doc => {
-          const version = doc.data().version;
+          const version = doc?.data()?.version;
           const previousVersion = localStorage.getItem("version");
           if (previousVersion) {
             //console.log("previous version exists in local storage")
@@ -166,6 +167,8 @@ function App() {
   useEffect(() => {
     if (user) {
       db.collection("users").doc(user.uid).collection("chats").orderBy("timestamp", "desc").onSnapshot({ includeMetadataChanges: true }, snap => {
+        console.log("new data comming! onSnapshot");
+        console.log(users);
         if (snap.docs?.length > 0) {
           snap.docChanges().forEach(change => {
             if (change.type === "added") {
