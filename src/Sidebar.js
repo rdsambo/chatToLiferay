@@ -24,7 +24,7 @@ const customStyles = {
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
-const index = algoliasearch("XS6RQO7ASC", "7b6fe1a26eedae8fac0d4d3e112d03be").initIndex('whatsappy-app');
+const index = algoliasearch("0N4YQZL7D8", "3e3e2288fc3d6dba707136cc5c741d38").initIndex('whatsappy-app');
 
 function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
   const [searchList, setSearchList] = useState(null);
@@ -164,13 +164,15 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
     <div className="sidebar" style={{
       minHeight: page.width <= 760 ? page.height : "auto"
     }}>
-      <div className="sidebar__header">
-        <div className="sidebar__header--left">
+	  {/*
+	  <div className="sidebar__header">
+	    <div className="sidebar__header--left">
           <Avatar src={user?.photoURL} />
           <h4>{user?.displayName} </h4>
         </div>
+	    
         <div className="sidebar__header--right">
-          {/* <IconButton onClick={() => {
+          <IconButton onClick={() => {
             if (pwa) {
               console.log("prompting the pwa event")
               pwa.prompt()
@@ -179,7 +181,7 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
             }
           }} >
             <GetAppRounded />
-          </IconButton> */}
+          </IconButton>
           <IconButton onClick={() => {
             auth.signOut();
             db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
@@ -190,8 +192,9 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
 
         </div>
       </div>
+	  */}
 
-      <div className="sidebar__search">
+      {/* <div className="sidebar__search">
         <form className="sidebar__search--container">
           <SearchOutlined />
           <input
@@ -202,7 +205,7 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
           />
           <button style={{ display: "none" }} type="submit" onClick={search}></button>
         </form>
-      </div>
+	  </div> */}
 
       <div className="sidebar__menu">
         <Nav

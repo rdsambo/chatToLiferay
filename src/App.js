@@ -51,14 +51,14 @@ function App() {
 
   const history = useHistory();
   useEffect(()=>{
-    console.log("Get......................");
+//    console.log("Get......................");
     window.addEventListener("beforeunload", (ev) => 
       {
         ev.preventDefault();
-        console.log("Going......................");
+//        console.log("Going......................");
         auth.onAuthStateChanged(function(user) {
           if (user) {
-            console.log("Saindo...");
+//            console.log("Saindo...");
             auth.signOut();
             db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
             ev.preventDefault();

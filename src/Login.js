@@ -9,8 +9,22 @@ import Cookies from 'js-cookie';
 function Login() {
     useEffect(() => {
         //auth.signInWithRedirect(provider).catch(e => alert(e.message))
-        const email = "rdsambo@gmail.zk";
-        //const email = Cookies.get("email");
+        //const email = "rdsambo@gmail.zk";
+		function getCookie(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0;i < ca.length;i++) {
+				var c = ca[i];
+				while (c.charAt(0)==' ') c = c.substring(1,c.length);
+				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+			}
+			return null;
+		}
+		function eraseCookie(name) {   
+			document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		}
+        const email = getCookie("email");
+		
         //const username = Cookies.get("userName");
         console.log("email");
         console.log(email);
