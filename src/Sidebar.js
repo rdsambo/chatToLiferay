@@ -89,8 +89,7 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
   function closeModal() {
     setIsOpen(false);
   }
-
-
+  
   var Nav;
   if (page.width > 760) {
     Nav = (props) =>

@@ -4,7 +4,8 @@ import Sidebar from './Sidebar';
 import Chat from './Chat';
 import Login from './Login';
 import setOnlineStatus from "./setOnlineStatus";
-import { Route, useLocation, Redirect } from 'react-router-dom';
+import { Route, useLocation, useHistory, Redirect } from 'react-router-dom';
+
 import { useStateValue } from './StateProvider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -34,6 +35,7 @@ const configureNotif = (docID) => {
     });
 }
 
+
 function App() {
   const [{ user, path, pathID, roomsData, page }, dispatch, actionTypes] = useStateValue();
   const [loader, setLoader] = useState(true);
@@ -46,6 +48,31 @@ function App() {
   const [setRoomsData] = useRoomsData();
   const b = useRef([]);
   const menus = ["/rooms", "/search", "/users", "/chats"];
+
+  const history = useHistory();
+  useEffect(()=>{
+    console.log("Get......................");
+    window.addEventListener("beforeunload", (ev) => 
+      {
+        ev.preventDefault();
+        console.log("Going......................");
+        auth.onAuthStateChanged(function(user) {
+          if (user) {
+            console.log("Saindo...");
+            auth.signOut();
+            db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
+            ev.preventDefault();
+            return (ev.returnValue = "");
+//            history.replace("/chats")
+          }
+          
+          //   // No user is signed in.
+          // }
+        });
+          // ev.preventDefault();
+          // return ev.returnValue = 'Are you sure you want to close?';
+      });
+  })
 
   const [rooms, fetchRooms] = useFetchData(30, db.collection("rooms").orderBy("timestamp", "desc"), true, snap => {
     return snap.docs.map(doc => ({

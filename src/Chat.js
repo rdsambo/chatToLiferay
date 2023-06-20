@@ -3,7 +3,7 @@ import { Avatar, IconButton } from '@material-ui/core';
 import { TransitionGroup, Transition, CSSTransition } from "react-transition-group";
 import { AddPhotoAlternate, MoreVert, DoneAllRounded, ArrowDownward, ArrowBack } from '@material-ui/icons';
 import { useParams, useRouteMatch, useLocation, Link, Route, useHistory } from 'react-router-dom';
-import db, { createTimestamp, fieldIncrement, storage, audioStorage } from "./firebase";
+import db, { auth, createTimestamp, fieldIncrement, storage, audioStorage } from "./firebase";
 import { useStateValue } from './StateProvider';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -767,7 +767,6 @@ function Chat({ animState, unreadMessages, b }) {
             setMessages(dispatchMessages[roomID].messages);
         };
     }, [dispatchMessages[roomID]]);
-
     
     //window
     const widthRatio = 0.7;
