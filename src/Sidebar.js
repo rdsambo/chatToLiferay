@@ -24,7 +24,7 @@ const customStyles = {
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
-const index = algoliasearch("0N4YQZL7D8", "3e3e2288fc3d6dba707136cc5c741d38").initIndex('whatsappy-app');
+const index = algoliasearch("0N4YQZL7D8", "3a81cb0d93b40a845008cbcd112f14f6").initIndex('whatsappy-app');
 
 function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
   const [searchList, setSearchList] = useState(null);
@@ -101,6 +101,11 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
   }
 
   async function search(e) {
+    console.log("users")
+    console.log(users)
+    console.log("rooms")
+    console.log(rooms)
+
     if (e) {
       document.querySelector(".sidebar__search input").blur();
       e.preventDefault();
@@ -112,14 +117,20 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
     if (menu !== 4) {
       setMenu(4)
     };
-    const result = (await index.search(searchInput)).hits.map(cur => cur.objectID !== user.uid ? {
-      ...cur,
-      id: cur.photoURL ? cur.objectID > user.uid ? cur.objectID + user.uid : user.uid + cur.objectID : cur.objectID,
-      userID: cur.photoURL ? cur.objectID : null
-    } : null);
+    const sum = users.concat(rooms);
+    // (await index.search(searchInput)).hits.map(cur => cur.objectID !== user.uid ? {
+    //   ...cur,
+    //   id: cur.photoURL ? cur.objectID > user.uid ? cur.objectID + user.uid : user.uid + cur.objectID : cur.objectID,
+    //   userID: cur.photoURL ? cur.objectID : null
+    // } : null);
     //console.log(result);
+    const result = sum.filter((item) => {
+      const item_name_data = item.name.toUpperCase();
+      const text_data = searchInput.trim().toUpperCase();
+      return item_name_data.indexOf(text_data) > -1;
+    });
     setSearchList(result);
-  }
+  };
 
   const createChat = () => {
     openModal();
@@ -164,139 +175,138 @@ function Sidebar({ chats, pwa, rooms, fetchRooms, users, fetchUsers }) {
     <div className="sidebar" style={{
       minHeight: page.width <= 760 ? page.height : "auto"
     }}>
-	  {/*
-	  <div className="sidebar__header">
+	  
+	  {/* <div className="sidebar__header">
 	    <div className="sidebar__header--left">
-          <Avatar src={user?.photoURL} />
-          <h4>{user?.displayName} </h4>
-        </div>
-	    
-        <div className="sidebar__header--right">
-          <IconButton onClick={() => {
-            if (pwa) {
-              console.log("prompting the pwa event")
-              pwa.prompt()
-            } else {
-              console.log("pwa event is undefined")
-            }
-          }} >
-            <GetAppRounded />
-          </IconButton>
-          <IconButton onClick={() => {
-            auth.signOut();
-            db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
-            history.replace("/chats")
-          }} >
-            <LogOut />
-          </IconButton>
-
-        </div>
+        <Avatar src={user?.photoURL} />
+        <h4>{user?.displayName} </h4>
       </div>
-	  */}
-
-      {/* <div className="sidebar__search">
-        <form className="sidebar__search--container">
-          <SearchOutlined />
-          <input
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search for users or rooms"
-            type="text"
-          />
-          <button style={{ display: "none" }} type="submit" onClick={search}></button>
-        </form>
-	  </div> */}
-
-      <div className="sidebar__menu">
-        <Nav
-          classSelected={menu === 1 ? true : false}
-          to="/chats"
-          click={() => setMenu(1)}
-          activeClassName="sidebar__menu--selected"
-        >
-          <div className="sidebar__menu--home">
-            <Home />
-            <div className="sidebar__menu--line"></div>
-          </div>
-        </Nav>
-        <Nav
-          classSelected={menu === 2 ? true : false}
-          to="/rooms"
-          click={() => setMenu(2)}
-          activeClassName="sidebar__menu--selected"
-        >
-          <div className="sidebar__menu--rooms">
-            <Message />
-            <div className="sidebar__menu--line"></div>
-          </div>
-        </Nav>
-        <Nav
-          classSelected={menu === 3 ? true : false}
-          to="/users"
-          click={() => setMenu(3)}
-          activeClassName="sidebar__menu--selected"
-        >
-          <div className="sidebar__menu--users">
-            <PeopleAlt />
-            <div className="sidebar__menu--line"></div>
-          </div>
-        </Nav>
-      </div>
-
-      {page.width <= 760 ?
-        <>
-          <Switch>
-            <Route path="/users" >
-              <SidebarChat key="users" fetchList={fetchUsers} dataList={users} title="Users" path="/users" />
-            </Route>
-            <Route path="/rooms" >
-              <SidebarChat key="rooms" fetchList={fetchRooms} dataList={rooms} title="Rooms" path="/rooms" />
-            </Route>
-            <Route path="/search">
-              <SidebarChat key="search" dataList={searchList} title="Search Result" path="/search" />
-            </Route>
-            <Route path="/chats" >
-              <SidebarChat key="chats" dataList={chats} title="Chats" path="/chats" />
-            </Route>
-          </Switch>
-        </>
-        :
-        menu === 1 ?
-          <SidebarChat key="chats" dataList={chats} title="Chats" />
-          : menu === 2 ?
-            <SidebarChat key="rooms" fetchList={fetchRooms} dataList={rooms} title="Rooms" />
-            : menu === 3 ?
-              <SidebarChat key="users" fetchList={fetchUsers} dataList={users} title="Users" />
-              : menu === 4 ?
-                <SidebarChat key="search" dataList={searchList} title="Search Result" />
-                : null
-      }
-      <div className="sidebar__chat--addRoom" onClick={createChat}>
-        <IconButton >
-          <Add />
+    
+      <div className="sidebar__header--right">
+        <IconButton onClick={() => {
+          if (pwa) {
+            //console.log("prompting the pwa event")
+            pwa.prompt()
+          } else {
+            //console.log("pwa event is undefined")
+          }
+        }} >
+          <GetAppRounded />
         </IconButton>
+        <IconButton onClick={() => {
+          auth.signOut();
+          db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
+          history.replace("/chats")
+        }} >
+          <LogOut />
+        </IconButton>
+
       </div>
-      <Modal
-        isOpen={modalIsOpen}
-        // onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
+    </div> */}
+   
+    <div className="sidebar__search">
+      <form className="sidebar__search--container">
+        <SearchOutlined />
+        <input
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search for users or rooms"
+          type="text"
+        />
+        <button style={{ display: "none" }} type="submit" onClick={search}></button>
+      </form>
+	  </div>
+
+    <div className="sidebar__menu">
+      <Nav
+        classSelected={menu === 1 ? true : false}
+        to="/chats"
+        click={() => setMenu(1)}
+        activeClassName="sidebar__menu--selected"
       >
-        {/* //  ref={(_cabecalho) => (cabecalho = _cabecalho)} */}
-        <p class="cabecalho">Entre com o nome da sala de conversa</p>
-        <br />
-        <form>
-          {/* // ref={(_campo) => (campo = _campo)} */}
-          <input class="campo" type="text" value={text} onChange={handleChange} required />
-          <br />
-          {/* // ref={(_botao_nao) => (botao_nao = _botao_nao)}  */}
-          <button class="botao_nao" onClick={closeModal}><b>Cancelar</b></button>
-          {/* //  ref={(_botao_sim) => (botao_sim = _botao_sim)}  */}
-          <button type='submit' class="botao_sim" onClick={generateChat}><b>Criar</b></button>
-        </form>
-      </Modal>
+        <div className="sidebar__menu--home">
+          <Home />
+          <div className="sidebar__menu--line"></div>
+        </div>
+      </Nav>
+      <Nav
+        classSelected={menu === 2 ? true : false}
+        to="/rooms"
+        click={() => setMenu(2)}
+        activeClassName="sidebar__menu--selected"
+      >
+        <div className="sidebar__menu--rooms">
+          <Message />
+          <div className="sidebar__menu--line"></div>
+        </div>
+      </Nav>
+      <Nav
+        classSelected={menu === 3 ? true : false}
+        to="/users"
+        click={() => setMenu(3)}
+        activeClassName="sidebar__menu--selected"
+      >
+        <div className="sidebar__menu--users">
+          <PeopleAlt />
+          <div className="sidebar__menu--line"></div>
+        </div>
+      </Nav>
     </div>
+
+    {page.width <= 760 ?
+      <>
+        <Switch>
+          <Route path="/users" >
+            <SidebarChat key="users" fetchList={fetchUsers} dataList={users} title="Users" path="/users" />
+          </Route>
+          <Route path="/rooms" >
+            <SidebarChat key="rooms" fetchList={fetchRooms} dataList={rooms} title="Rooms" path="/rooms" />
+          </Route>
+          <Route path="/search">
+            <SidebarChat key="search" dataList={searchList} title="Search Result" path="/search" />
+          </Route>
+          <Route path="/chats" >
+            <SidebarChat key="chats" dataList={chats} title="Chats" path="/chats" />
+          </Route>
+        </Switch>
+      </>
+      :
+      menu === 1 ?
+        <SidebarChat key="chats" dataList={chats} title="Chats" />
+        : menu === 2 ?
+          <SidebarChat key="rooms" fetchList={fetchRooms} dataList={rooms} title="Rooms" />
+          : menu === 3 ?
+            <SidebarChat key="users" fetchList={fetchUsers} dataList={users} title="Users" />
+            : menu === 4 ?
+              <SidebarChat key="search" dataList={searchList} title="Search Result" />
+              : null
+    }
+    <div className="sidebar__chat--addRoom" onClick={createChat}>
+      <IconButton >
+        <Add />
+      </IconButton>
+    </div>
+    <Modal
+      isOpen={modalIsOpen}
+      // onAfterOpen={afterOpenModal}
+      onRequestClose={closeModal}
+      style={customStyles}
+      contentLabel="Example Modal"
+    >
+      {/* //  ref={(_cabecalho) => (cabecalho = _cabecalho)} */}
+      <p class="cabecalho">Entre com o nome da sala de conversa</p>
+      <br />
+      <form>
+        {/* // ref={(_campo) => (campo = _campo)} */}
+        <input class="campo" type="text" value={text} onChange={handleChange} required />
+        <br />
+        {/* // ref={(_botao_nao) => (botao_nao = _botao_nao)}  */}
+        <button class="botao_nao" onClick={closeModal}><b>Cancelar</b></button>
+        {/* //  ref={(_botao_sim) => (botao_sim = _botao_sim)}  */}
+        <button type='submit' class="botao_sim" onClick={generateChat}><b>Criar</b></button>
+      </form>
+    </Modal>
+  </div>
   );
 };
 

@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 function Login() {
     useEffect(() => {
         //auth.signInWithRedirect(provider).catch(e => alert(e.message))
-        //const email = "rdsambo@gmail.zk";
+        const email = "rdsambo@gmail.zk";
 		function getCookie(name) {
 			var nameEQ = name + "=";
 			var ca = document.cookie.split(';');
@@ -23,11 +23,11 @@ function Login() {
 		function eraseCookie(name) {   
 			document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 		}
-        const email = getCookie("email");
+        //const email = getCookie("email");
 		
         //const username = Cookies.get("userName");
-        console.log("email");
-        console.log(email);
+        //console.log("email");
+        //console.log(email);
         const pass = email;
         const username = email;
         auth.createUserWithEmailAndPassword(email, pass).then(
@@ -35,20 +35,20 @@ function Login() {
                 // value.additionalUserInfo.username = "Sambo";
                 // value.user.displayName = "Ramos";
                 
-                console.log("value.user.email");
-                console.log();
+                //console.log("value.user.email");
+                //console.log();
                 user.user.updateProfile({
                     displayName: username
                 }).then(function() {
-                    console.log("username atualizado com sucesso!");
+                    //console.log("username atualizado com sucesso!");
                     signIn(email, pass);
                 }, function(error) {
-                    console.log("Erro ao atulizar username!\nErro:"+error);
+                    //console.log("Erro ao atulizar username!\nErro:"+error);
                 });
-                console.log("usuario criado com sucesso!");
+                //console.log("usuario criado com sucesso!");
             },
             (reason)=>{
-                console.log("Erro ao criar usuario usuario! /nErro:"+reason);
+                //console.log("Erro ao criar usuario usuario! /nErro:"+reason);
                 signIn(email, pass);
             }
         )

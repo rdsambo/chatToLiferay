@@ -75,7 +75,10 @@ function SidebarChat({ dataList, title, path, fetchList}) {
                                 </div>
                                 <div className="sidebar__chat--info">
                                     <h2 
-                                        dangerouslySetInnerHTML={{__html: title === "Search Result" ? data._highlightResult.name.value : data.name}}
+                                        dangerouslySetInnerHTML={{__html: 
+                                            // title === "Search Result" ? 
+                                        // data._highlightResult.name.value : 
+                                        data.name}}
                                         style={{
                                             width: page.width <= 760 ? page.width - 126 : page.width * 0.315 - 126,
                                             marginBottom: lastMessage?.message || lastMessage ? 8 : 0,

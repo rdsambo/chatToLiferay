@@ -51,14 +51,14 @@ function App() {
 
   const history = useHistory();
   useEffect(()=>{
-//    console.log("Get......................");
+//    //console.log("Get......................");
     window.addEventListener("beforeunload", (ev) => 
       {
         ev.preventDefault();
-//        console.log("Going......................");
+//        //console.log("Going......................");
         auth.onAuthStateChanged(function(user) {
           if (user) {
-//            console.log("Saindo...");
+//            //console.log("Saindo...");
             auth.signOut();
             db.doc('/users/' + user.uid).set({ state: "offline" }, { merge: true });
             ev.preventDefault();
@@ -194,8 +194,8 @@ function App() {
   useEffect(() => {
     if (user) {
       db.collection("users").doc(user.uid).collection("chats").orderBy("timestamp", "desc").onSnapshot({ includeMetadataChanges: true }, snap => {
-        console.log("new data comming! onSnapshot");
-        console.log(users);
+        //console.log("new data comming! onSnapshot");
+        //console.log(users);
         if (snap.docs?.length > 0) {
           snap.docChanges().forEach(change => {
             if (change.type === "added") {

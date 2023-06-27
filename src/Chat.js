@@ -307,7 +307,7 @@ function Chat({ animState, unreadMessages, b }) {
                 ]);
                 page.width <= 760 ? history.goBack() : history.replace("/chats");
             } catch(e) {
-                console.log(e.message);
+                //console.log(e.message);
                 page.width <= 760 ? history.goBack() : history.replace("/chats");
             };
         } else {
@@ -718,7 +718,7 @@ function Chat({ animState, unreadMessages, b }) {
             if (messages.length > 0) {
                 if (chatBodyContainer.current.scrollTop > chatBodyContainer.current.scrollHeight - chatBodyContainer.current.offsetHeight - 180
                     && state.userID && !seen && messages[messages.length - 1].uid !== user.uid) {
-                    console.log("setting seen true with event");
+                    //console.log("setting seen true with event");
                     db.collection("rooms").doc(roomID).set({
                         seen: true,
                     }, { merge: true });
